@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Ajouter une nouvelle réservation</title>
+		<link rel="stylesheet" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	</head>
+	<body>
+		<div class="container">
+		<ul class="nav">
+			<li class="nav-item"><a class="nav-link" th:href="@{/}">Accueil</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/clients}">Nos clients</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" th:href="@{/ajoutClient}">Ajouter un nouveau client</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" th:href="@{/ajoutReservation}">Ajouter une nouvelle réservation</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" href="/formFacture">Editer facture</a></li>
+			<li class="nav-item"><a class="nav-link" th:text="'Bienvenue ' + ${#authentication.name}"></a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Déconnexion</a></li>
+		</ul>
+		<h1 class="h1">Ajouter une nouvelle réseravion</h1>
+		<form method="post" th:action="@{/saveReservation}">
+			Client :
+				<select name="idClient">
+					<option th:each="c:${clients}" th:text="${c.nom}" th:value="${c.idClient}"></option>
+				</select>
+			Chambre :
+				<select name="noChambre">
+					<option th:each="ch:${chambres}" th:text="${ch.noChambre}" th:value="${ch.noChambre}"></option>
+				</select><br>
+			Date de réservation :<input type="text" name="dateReservation" class="form-control" />
+			Durée :<input type="text" name="duree" class="form-control" />
+			<input type="submit" value="Réserver" class="btn btn-primary" />
+		</form>
+		</div>
+	</body>
+</html>

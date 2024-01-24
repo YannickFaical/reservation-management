@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Liste des réservations</title>
+		<link rel="stylesheet" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+		<link rel="stylesheet" th:href="@{../css/monstyle.css}" />
+	</head>
+	<body>
+		<div class="container">
+		<ul class="nav">
+			<li class="nav-item"><a class="nav-link" th:href="@{/}">Accueil</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/clients}">Nos clients</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" th:href="@{/ajoutClient}">Ajouter un nouveau client</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" th:href="@{/ajoutReservation}">Ajouter une nouvelle réservation</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" href="/formFacture">Editer facture</a></li>
+			<li class="nav-item"><a class="nav-link" th:text="'Bienvenue ' + ${#authentication.name}"></a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Déconnexion</a></li>
+		</ul>
+		<h1 class="h1">Liste des réservations</h1>
+		<table class="table">
+			<thead class="thead">
+				<tr>
+					<th>No Client</th>
+					<th>No chambre </th>
+					<th>Date de début </th>
+					<th>Durée</th>
+					<th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Editer</th>
+					<th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Supprimer</th>
+				</tr>
+			</thead>
+			<tbody class="tbody">
+				<tr th:each="r:${reservations}">
+					<td th:text="${r.idReservation.idClient}"></td>
+					<td th:text="${r.idReservation.noChambre}"></td>
+					<td th:text="${r.dateReservation}"></td>
+					<td th:text="${r.duree}"></td>
+					<td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a th:href="@{/editerReservation?idClient=} + ${r.idReservation.idClient} + '&noChambre=' + ${r.idReservation.noChambre}"><img th:src="@{../images/editer.png}" /></a></td>
+					<td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a th:href="@{/deleteReservation?idClient=} + ${r.idReservation.idClient} + '&noChambre=' + ${r.idReservation.noChambre}"><img th:src="@{../images/delete.jpg}" /></a></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Editer une réservation</title>
+		<link rel="stylesheet" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	</head>
+	<body>
+		<div class="container">
+		<ul class="nav">
+			<li class="nav-item"><a class="nav-link" th:href="@{/}">Accueil</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/clients}">Nos clients</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" th:href="@{/ajoutClient}">Ajouter un nouveau client</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" th:href="@{/ajoutReservation}">Ajouter une nouvelle réservation</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" href="/formFacture">Editer facture</a></li>
+			<li class="nav-item"><a class="nav-link" th:text="'Bienvenue ' + ${#authentication.name}"></a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Déconnexion</a></li>
+		</ul>
+		<h1 class="h1">Editer une réseravion</h1>
+		<form method="post" th:action="@{/updateReservation}">
+			Client :<input type="text" name="idClient" th:value="${reservation.idReservation.idClient}" class="form-control" readonly />
+			Chambre :<input type="text" name="noChambre" th:value="${reservation.idReservation.noChambre}" class="form-control" readonly />
+			Date de réservation :<input type="text" name="dateReservation" class="form-control" th:value="${reservation.dateReservation}" />
+			Durée :<input type="text" name="duree" class="form-control" th:value="${reservation.duree}" />
+			<input type="submit" value="Update" class="btn btn-primary" />
+		</form>
+		</div>
+	</body>
+</html>

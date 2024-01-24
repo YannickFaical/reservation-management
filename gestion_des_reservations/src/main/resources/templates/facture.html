@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Liste des réservations</title>
+		<link rel="stylesheet" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+		<link rel="stylesheet" th:href="@{../css/monstyle.css}" />
+	</head>
+	<body>
+		<div class="container">
+		<h1 class="h1">Facture de Mme/Mr :<span th:text="${client.nom}"></span> </h1>
+		<table class="table">
+			<thead class="thead">
+				<tr>
+					<th>No Chambre</th>
+					<th>Date de début </th>
+					<th>Durée</th>
+					<th>Prix</th>
+					<th>Total par chambre</th>
+				</tr>
+			</thead>
+			<tbody class="tbody">
+				<tr th:each="r:${reservations}">
+					<td th:text="${r.idReservation.noChambre}"></td>
+					<td th:text="${r.dateReservation}"></td>
+					<td th:text="${r.duree}"></td>
+					<td th:text="${r.chambre.categorie.prix} + ' DH'"></td>
+					<td th:text="${r.duree*r.chambre.categorie.prix} + ' DH'"></td>
+				</tr>
+				<tr>
+					<td colspan="5" align="right"><h4 class="h4" th:text="'Total à payer :' + ${s} + ' DH'"></h4></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</body>
+</html>

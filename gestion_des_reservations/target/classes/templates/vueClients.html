@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Liste des clients</title>
+		<link rel="stylesheet" th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+		<link rel="stylesheet" th:href="@{../css/monstyle.css}" />
+	</head>
+	<body>
+		<div class="container">
+		<ul class="nav">
+			<li class="nav-item"><a class="nav-link" th:href="@{/}">Accueil</a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/clients}">Nos clients</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" th:href="@{/ajoutClient}">Ajouter un nouveau client</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" th:href="@{/ajoutReservation}">Ajouter une nouvelle réservation</a></li>
+			<li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}" class="nav-item"><a class="nav-link" href="/formFacture">Editer facture</a></li>
+			<li class="nav-item"><a class="nav-link" th:text="'Bienvenue ' + ${#authentication.name}"></a></li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/logout}">Déconnexion</a></li>
+		</ul>
+		<div id="search">
+		<form method="get" action="">
+			Entrer un mot clé :<input type="text" name="motcle" class="form-control" />
+			<input type="submit" value="Search" class="btn btn-primary" />
+		</form>
+		</div>
+		<h1 class="h1">Liste des clients</h1>
+		<table class="table">
+			<thead class="thead">
+				<tr>
+					<th>No Client</th>
+					<th>Nom </th>
+					<th>Prénom </th>
+					<th>Email </th>
+					<th>Tél </th>
+					<th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Editer</th>
+					<th th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">Supprimer</th>
+				</tr>
+			</thead>
+			<tbody class="tbody">
+				<tr th:each="clt:${clients}">
+					<td th:text="${clt.idClient}"></td>
+					<td th:text="${clt.nom}"></td>
+					<td th:text="${clt.prenom}"></td>
+					<td th:text="${clt.email}"></td>
+					<td th:text="${clt.tel}"></td>
+					<td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a th:href="@{/editerClient?idClient=} + ${clt.idClient}"><img th:src="@{../images/editer.png}" /></a></td>
+					<td th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a th:href="@{/supprimerClient?idClient=} + ${clt.idClient}"><img th:src="@{../images/delete.jpg}" /></a></td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</body>
+</html>
